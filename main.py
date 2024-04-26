@@ -61,8 +61,6 @@ def update_listbox():
     for task in tasks:
         tasks_listbox.insert(tk.END, task)
 
-load_tasks()
-
 root = tk.Tk()
 root.title("To-Do App")
 
@@ -86,7 +84,7 @@ delete_button.pack()
 save_button = tk.Button(root, text="Save Tasks", command=save_tasks)
 save_button.pack(side=tk.LEFT, padx=5)
 
-load_button = tk.Button(root, text="Load Tasks", command=load_tasks)
+load_button = tk.Button(root, text="Load Tasks", command=lambda:load_tasks())
 load_button.pack(side=tk.RIGHT, padx=5)
 
 update_listbox()
