@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, simpledialog
 
 def add_task():
     task = task_entry.get()
@@ -18,6 +18,16 @@ def delete_task():
     except IndexError:
         messagebox.showwarning("Warning", "Please select a task to delete.")
         
+def edit_task():
+    try:
+        task_index = tasks_listbox.curselection()[0]
+        new_task = tk.simpledialog.askstring("Edit Task", "Enter new task:")
+        if new_task:
+            tasks[task_index] = new_task
+            update_listbox()
+    except IndexError:
+        messagebox.showwarning("Warning", "Please select a task to edit.")
+
 def update_listbox():
     tasks_listbox.delete(0, tk.END)
     for task in tasks:
@@ -36,6 +46,9 @@ add_button.pack()
 
 tasks_listbox = tk.Listbox(root, width=50)
 tasks_listbox.pack(pady=10)
+
+edit_button = tk.Button(root, text="Edit Task", command=edit_task)
+edit_button.pack()
 
 delete_button = tk.Button(root, text="Delete Task", command=delete_task)
 delete_button.pack()
