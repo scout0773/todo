@@ -22,9 +22,14 @@ def edit_task():
     try:
         task_index = tasks_listbox.curselection()[0]
         new_task = tk.simpledialog.askstring("Edit Task", "Enter new task:")
-        if new_task:
-            tasks[task_index] = new_task
-            update_listbox()
+        if new_task is not None:
+            new_task = new_task.strip()
+            if new_task and any(char.isalnum() for char in new_task):
+                tasks[task_index] = new_task
+                update_listbox()
+                task_entry.delete(0, tk.END)
+            else:
+                messagebox.showwarning("Warning", "Task cannot be empty.")
     except IndexError:
         messagebox.showwarning("Warning", "Please select a task to edit.")
 
