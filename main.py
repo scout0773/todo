@@ -2,8 +2,8 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog
 
 def add_task():
-    task = task_entry.get()
-    if task:
+    task = task_entry.get().strip()
+    if task and any(char.isalnum() for char in task):
         tasks.append(task)
         update_listbox()
         task_entry.delete(0, tk.END)
