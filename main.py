@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox, simpledialog
+from tkinter import messagebox, simpledialog, filedialog
 
 def add_task():
     task = task_entry.get().strip()
@@ -44,14 +44,15 @@ def save_tasks():
 
 def load_tasks():
     try:
-        with open("tasks.txt", "r") as file:
-            lines = file.readlines()
-            for line in lines:
-                tasks.append(line.strip())
-        update_listbox()
-        messagebox.showinfo("Success", "Tasks loaded successfully.")
-    except FileNotFoundError:
-        messagebox.showwarning("Warning", "No tasks found.")
+        file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")])
+        if file_path:
+            with open(file_path, "r") as file:
+                tasks.clear()
+                lines = file.readlines()
+                for line in lines:
+                    tasks.append(line.strip())
+                    update_listbox()
+                    messagebox.showinfo("Success", "Tasks loaded successfully.")
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred while loading tasks: {str(e)}")
 
