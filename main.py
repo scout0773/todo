@@ -51,8 +51,8 @@ def load_tasks():
                 lines = file.readlines()
                 for line in lines:
                     tasks.append(line.strip())
-                    update_listbox()
-                    messagebox.showinfo("Success", "Tasks loaded successfully.")
+                update_listbox()
+                messagebox.showinfo("Success", "Tasks loaded successfully.")
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred while loading tasks: {str(e)}")
 
@@ -68,26 +68,19 @@ root.title("To-Do App")
 
 tasks = []
 
-task_entry = tk.Entry(root, width=50)
-task_entry.pack(pady=10)
+task_entry = tk.Entry(root, width=50).pack(pady=10)
 
-add_button = tk.Button(root, text="Add Task", command=add_task)
-add_button.pack()
+add_button = tk.Button(root, text="Add Task", command=add_task).pack()
 
-tasks_listbox = tk.Listbox(root, width=50)
-tasks_listbox.pack(pady=10)
+tasks_listbox = tk.Listbox(root, width=50).pack(pady=10)
 
-edit_button = tk.Button(root, text="Edit Task", command=edit_task)
-edit_button.pack()
+edit_button = tk.Button(root, text="Edit Task", command=edit_task).pack()
 
-delete_button = tk.Button(root, text="Delete Task", command=delete_task)
-delete_button.pack()
+delete_button = tk.Button(root, text="Delete Task", command=delete_task).pack()
 
-save_button = tk.Button(root, text="Save Tasks", command=save_tasks)
-save_button.pack(side=tk.LEFT, padx=5)
+save_button = tk.Button(root, text="Save Tasks", command=save_tasks).pack(side=tk.LEFT, padx=5)
 
-load_button = tk.Button(root, text="Load Tasks", command=load_tasks)
-load_button.pack(side=tk.RIGHT, padx=5)
+load_button = tk.Button(root, text="Load Tasks", command=load_tasks).pack(side=tk.RIGHT, padx=5)
 
 update_listbox()
 
