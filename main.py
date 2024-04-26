@@ -42,10 +42,25 @@ def save_tasks():
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred while saving tasks: {str(e)}")
 
+def load_tasks():
+    try:
+        with open("tasks.txt", "r") as file:
+            lines = file.readlines()
+            for line in lines:
+                tasks.append(line.strip())
+        update_listbox()
+        messagebox.showinfo("Success", "Tasks loaded successfully.")
+    except FileNotFoundError:
+        messagebox.showwarning("Warning", "No tasks found.")
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred while loading tasks: {str(e)}")
+
 def update_listbox():
     tasks_listbox.delete(0, tk.END)
     for task in tasks:
         tasks_listbox.insert(tk.END, task)
+
+load_tasks()
 
 root = tk.Tk()
 root.title("To-Do App")
@@ -69,6 +84,9 @@ delete_button.pack()
 
 save_button = tk.Button(root, text="Save Tasks", command=save_tasks)
 save_button.pack(side=tk.LEFT, padx=5)
+
+load_button = tk.Button(root, text="Load Tasks", command=load_tasks)
+load_button.pack(side=tk.RIGHT, padx=5)
 
 update_listbox()
 
