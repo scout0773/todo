@@ -32,6 +32,15 @@ def edit_task():
                 messagebox.showwarning("Warning", "Task cannot be empty.")
     except IndexError:
         messagebox.showwarning("Warning", "Please select a task to edit.")
+        
+def save_tasks():
+    try:
+        with open("tasks.txt", "w") as file:
+            for task in tasks:
+                file.write(task + "\n")
+        messagebox.showinfo("Success", "Tasks saved successfully.")
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred while saving tasks: {str(e)}")
 
 def update_listbox():
     tasks_listbox.delete(0, tk.END)
@@ -57,6 +66,9 @@ edit_button.pack()
 
 delete_button = tk.Button(root, text="Delete Task", command=delete_task)
 delete_button.pack()
+
+save_button = tk.Button(root, text="Save Tasks", command=save_tasks)
+save_button.pack(side=tk.LEFT, padx=5)
 
 update_listbox()
 
