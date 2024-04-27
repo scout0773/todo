@@ -34,13 +34,14 @@ def edit_task():
         messagebox.showwarning("Warning", "Please select a task to edit.")
         
 def save_tasks():
-    try:
-        with open("tasks.txt", "w") as file:
-            for task in tasks:
-                file.write(task + "\n")
-        messagebox.showinfo("Success", "Tasks saved successfully.")
-    except Exception as e:
-        messagebox.showerror("Error", f"An error occurred while saving tasks: {str(e)}")
+    if tasks:
+        try:
+            with open("tasks.txt", "w") as file:
+                for task in tasks:
+                    file.write(task + "\n")
+            messagebox.showinfo("Success", "Tasks saved successfully.")
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred while saving tasks: {str(e)}")
 
 def load_tasks():
     try:
