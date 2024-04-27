@@ -1,10 +1,17 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog, filedialog
 
+priorities = {
+    "high": "#e83f3f",
+    "medium": "#edbe51",
+    "low": "#5bd475"
+}
+
 def add_task():
     task = task_entry.get().strip()
+    priority = priority_var.get()
     if task and any(char.isalnum() for char in task):
-        tasks.append(task)
+        tasks.append((task, priority))
         update_listbox()
         task_entry.delete(0, tk.END)
     else:
@@ -21,11 +28,12 @@ def delete_task():
 def edit_task():
     try:
         task_index = tasks_listbox.curselection()[0]
-        new_task = tk.simpledialog.askstring("Edit Task", "Enter new task:")
+        new_task = simpledialog.askstring("Edit Task", "Enter new task:")
         if new_task is not None:
             new_task = new_task.strip()
             if new_task and any(char.isalnum() for char in new_task):
-                tasks[task_index] = new_task
+                priority = tasks[task_index][1]
+                tasks[task_index] = (new_task, priority)
                 update_listbox()
                 task_entry.delete(0, tk.END)
             else:
@@ -37,8 +45,8 @@ def save_tasks():
     if tasks:
         try:
             with open("tasks.txt", "w") as file:
-                for task in tasks:
-                    file.write(task + "\n")
+                for task, priority in tasks:
+                    file.write(f"{task},{priority}\n")
             messagebox.showinfo("Success", "Tasks saved successfully.")
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred while saving tasks: {str(e)}")
@@ -51,7 +59,8 @@ def load_tasks():
                 tasks.clear()
                 lines = file.readlines()
                 for line in lines:
-                    tasks.append(line.strip())
+                    task, priority = line.strip().split(',')
+                    tasks.append((task, priority))
                 update_listbox()
                 messagebox.showinfo("Success", "Tasks loaded successfully.")
     except Exception as e:
@@ -59,8 +68,9 @@ def load_tasks():
 
 def update_listbox():
     tasks_listbox.delete(0, tk.END)
-    for task in tasks:
+    for task, priority in tasks:
         tasks_listbox.insert(tk.END, task)
+        tasks_listbox.itemconfig(tk.END, bg=priorities[priority])
 
 root = tk.Tk()
 root.title("To-Do App")
@@ -69,6 +79,11 @@ tasks = []
 
 task_entry = tk.Entry(root, width=50)
 task_entry.pack(pady=10)
+
+priority_var = tk.StringVar(root)
+priority_var.set("medium")
+priority_dropdown = tk.OptionMenu(root, priority_var, "high", "medium", "low")
+priority_dropdown.pack()
 
 add_button = tk.Button(root, text="Add Task", command=add_task)
 add_button.pack()
