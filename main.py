@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog, filedialog
+import os
+import time
 
 priorities = {
     "high": "#e83f3f",
@@ -44,7 +46,13 @@ def edit_task():
 def save_tasks():
     if tasks:
         try:
-            with open("tasks.txt", "w") as file:
+            if not os.path.exists("lists"):
+                os.makedirs("lists")
+                
+            timestamp = int(time.time())
+            filename = f"lists/todo_{timestamp}.txt"
+            
+            with open(filename, "w") as file:
                 for task, priority in tasks:
                     file.write(f"{task},{priority}\n")
             messagebox.showinfo("Success", "Tasks saved successfully.")
@@ -55,6 +63,9 @@ def load_tasks():
     try:
         file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")])
         if file_path:
+            if not file_path.endswith('.txt'):
+                messagebox.showerror("Error", "Only .txt files are allowed.")
+                return
             with open(file_path, "r") as file:
                 tasks.clear()
                 lines = file.readlines()
@@ -68,7 +79,8 @@ def load_tasks():
 
 def update_listbox():
     tasks_listbox.delete(0, tk.END)
-    for task, priority in tasks:
+    sorted_tasks = sorted(tasks, key=lambda x: ("high", "medium", "low").index(x[1]))
+    for task, priority in sorted_tasks:
         tasks_listbox.insert(tk.END, task)
         tasks_listbox.itemconfig(tk.END, bg=priorities[priority])
 

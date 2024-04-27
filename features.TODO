@@ -1,3 +1,4 @@
 1. save/export tasks to CSV file - saves and loads txt files, will add CSV support later
-2. priority levels
-3. due dates/reminders
+2. priority levels - added automatic sorting from top to bottom priority
+3. multi-delete
+4. due dates/reminders
