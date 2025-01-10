@@ -23,7 +23,7 @@ Learning to build a to-do app using Python and Tkinter. Check `features.TODO` to
 
 ## Screenshots
 
-![Screenshot](https://i.imgur.com/MTyP4L9.png)
+![Screenshot](https://i.imgur.com/eS1cFZx.png)
 
 ## License
 
